@@ -1,0 +1,62 @@
+<body>
+  <div class="container">
+    <header>
+            <h1>Antibiotics</h1>
+    </header>
+    <div>
+      {{#each abx}}
+        {{> antibiotic}}
+      {{/each}}
+    </div>
+    <header>
+            <h1>Covers...</h1>
+    </header>
+    <div>
+      {{#each coveredBugs}}
+        {{> coveredBug}}
+      {{/each}}
+    </div>
+    <header>
+            <h1>Bugs</h1>
+    </header>
+    <div>
+      {{#each bugs}}
+        {{> bug}}
+      {{/each}}
+    </div>
+    <header>
+            <h1>Covered by...</h1>
+    </header>
+    <div>
+      {{#each abxForBugs}}
+        {{> antibioticForBugs}}
+      {{/each}}
+    </div>
+  </div>
+</body>
+
+<template name="antibiotic">
+  <label>
+    <input type="checkbox" class="abx" value="{{_id}}"/>
+    {{name}}
+  </label>
+</template>
+
+<template name="coveredBug">
+  <label>
+    {{name}}
+  </label>
+</template>
+
+<template name="bug">
+  <label>
+    <input type="checkbox" class="bugs" value="{{_id}}"/>
+    {{name}}
+  </label>
+</template>
+
+<template name="antibioticForBugs">
+  <label>
+    {{name}}
+  </label>
+</template>
