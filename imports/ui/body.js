@@ -34,7 +34,7 @@ Template.body.helpers({
       return {bugs: _id};
     }).get();
 
-    //console.dir(checkedBugsIds);
+    console.dir(checkedBugsIds);
     
     if (checkedBugsIds.length > 0) {
       return Abx.find({$and: checkedBugsIds});
