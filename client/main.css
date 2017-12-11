@@ -7,6 +7,17 @@
 }
 
 label {
-  min-width: 30%;
   display: inline-block;
+  overflow-x: hidden;
+  white-space: no-wrap;
+}
+
+label::first-letter {
+  text-transform: uppercase;
+}
+
+.equalWidth {
+  width: 250px;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }

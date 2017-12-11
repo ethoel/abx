@@ -1,9 +1,17 @@
+import { Meteor } from 'meteor/meteor';
 import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Abx } from '../api/abx.js';
 import { Bugs } from '../api/bugs.js';
 import { gramToColor } from './gramToColor.js';
 import './body.html';
+
+Meteor.startup(function () {
+  console.log("startup");
+  Session.set("widestLabel", 0);
+});
+
+
 
 Template.body.helpers({
   abx: function () {
@@ -66,4 +74,34 @@ Template.body.events({
     console.log("in function click .bugs");
     Session.set("lastBugsClick", (new Date()).getTime());
   }
+});
+
+Template.bug.onRendered(function () {
+  console.log("bug.onRendered");
+  var widestLabel = Session.get("widestLabel");
+  var currentLabel = this.$('label').width();
+
+  console.log(currentLabel + " > " + widestLabel);
+  if ( currentLabel > widestLabel ) {
+    Session.set("widestLabel", currentLabel);
+    $('#widestLabel').remove();
+    $('<style id="widestLabel">.equalWidth { width: ' + currentLabel + 'px; }</style>').appendTo('head');
+  }
+  console.log("widestLabel: " + Session.get("widestLabel"));
+  this.$('label').addClass("equalWidth");
+});
+
+Template.antibiotic.onRendered(function () {
+  console.log("bug.onRendered");
+  var widestLabel = Session.get("widestLabel");
+  var currentLabel = this.$('label').width();
+
+  console.log(currentLabel + " > " + widestLabel);
+  if ( currentLabel > widestLabel ) {
+    Session.set("widestLabel", currentLabel);
+    $('#widestLabel').remove();
+    $('<style id="widestLabel">.equalWidth { width: ' + currentLabel + 'px; }</style>').appendTo('head');
+  }
+  console.log("widestLabel: " + Session.get("widestLabel"));
+  this.$('label').addClass("equalWidth");
 });
