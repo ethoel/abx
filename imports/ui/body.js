@@ -47,21 +47,13 @@ Template.body.helpers({
 
 Template.bug.helpers({
   gramStainColor: function () {
-    console.log("in gramStainColor fxn:");
-    console.dir(this);
-    if (this.gram > 0) {
-      return "#663399";
-    } else if (this.gram < 0) {
-      return "#DDA0DD";
-    } else {
-      return "#696969";
-    }
+    return gramToColor(this.gram);
   }
 });
 
 Template.coveredBug.helpers({
   gramStainColor: function () {
-    gramToColor(this.gram);
+    return gramToColor(this.gram);
   }
 });
 
