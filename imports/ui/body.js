@@ -44,18 +44,24 @@ Template.body.helpers({
   }
 });
 
-Template.bug.helpers({
-  gramStainColor: function () {
-    console.log("in gramStainColor fxn:");
-    //console.dir(this);
-    if (this.gram > 0) {
-      return "#663399";
-    } else if (this.gram < 0) {
-      return "#DDA0DD";
-    } else {
-      return "#696969";
-    }
+function gramStainColor(bug) {
+  console.log("in gramStainColor fxn:");
+  //console.dir(this);
+  if (bug.gram > 0) {
+    return "#663399";
+  } else if (bug.gram < 0) {
+    return "#DDA0DD";
+  } else {
+    return "#696969";
   }
+}
+
+Template.bug.helpers({
+  gramStainColor: gramStainColor(this)
+});
+
+Template.coveredBug.helpers({
+  gramStainColor: gramStainColor(this)
 });
 
 Template.body.events({
