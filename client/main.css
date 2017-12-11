@@ -1,1 +1,12 @@
 /* CSS declarations go here */
+.topborder {
+  margin-top: 1rem;
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: black;
+}
+
+label {
+  min-width: 30%;
+  display: inline-block;
+}

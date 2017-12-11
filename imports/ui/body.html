@@ -1,35 +1,32 @@
 <body>
   <div class="container">
     <header>
-            <h1>Antibiotics</h1>
-    </header>
-    <div>
-      {{#each abx}}
-        {{> antibiotic}}
-      {{/each}}
-    </div>
-    <header>
-            <h1>Covers...</h1>
-    </header>
-    <div>
-      {{#each coveredBugs}}
-        {{> coveredBug}}
-      {{/each}}
-    </div>
-    <header>
-            <h1>Bugs</h1>
+      <h2>Select the pathogens you want to cover:</h2>
     </header>
     <div>
       {{#each bugs}}
         {{> bug}}
       {{/each}}
     </div>
-    <header>
-            <h1>Covered by...</h1>
-    </header>
+    <h4>Selected pathogens are covered by any one of these antibiotics:</h4>
     <div>
       {{#each abxForBugs}}
         {{> antibioticForBugs}}
+      {{/each}}
+    </div>
+
+    <header class="topborder">
+      <h2>Or select the antibiotics you want to use:</h2>
+    </header>
+    <div>
+      {{#each abx}}
+        {{> antibiotic}}
+      {{/each}}
+    </div>
+    <h4>Selected antiobiotics cover these pathogens:</h4>
+    <div>
+      {{#each coveredBugs}}
+        {{> coveredBug}}
       {{/each}}
     </div>
   </div>
