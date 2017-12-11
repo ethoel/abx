@@ -1,9 +1,19 @@
 <body>
   <div class="container">
     <header>
-      <h2>Select the pathogens you want to cover:</h2>
+      <h2>Select the infections you want to empirically cover:</h2>
     </header>
     <div>
+      {{#each infxns}}
+        {{> infxn}}
+      {{/each}}
+    </div>
+    <h4>Then select the common pathogens you want to cover:</h4>
+    <div>
+      <label class="equalWidth">
+        <input type="checkbox" id="allBugs"/>
+        Select all
+      </label>
       {{#each bugs}}
         {{> bug}}
       {{/each}}
@@ -54,6 +64,13 @@
 
 <template name="antibioticForBugs">
   <label class="equalWidth">
+    <span class="capitalize">{{name}}</span>
+  </label>
+</template>
+
+<template name="infxn">
+  <label>
+    <input type="checkbox" class="infxns" value="{{_id}}"/>
     <span class="capitalize">{{name}}</span>
   </label>
 </template>

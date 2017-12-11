@@ -3,6 +3,7 @@ import { Template } from 'meteor/templating';
 import { Session } from 'meteor/session';
 import { Abx } from '../api/abx.js';
 import { Bugs } from '../api/bugs.js';
+import { Infxns } from '../api/infxns.js';
 import { gramToColor } from './gramToColor.js';
 import './body.html';
 
@@ -14,6 +15,9 @@ Meteor.startup(function () {
 
 
 Template.body.helpers({
+  infxns: function () {
+    return Infxns.find({});
+  },
   abx: function () {
     return Abx.find({});
   },
@@ -34,7 +38,31 @@ Template.body.helpers({
     }
   },
   bugs: function () {
-    return Bugs.find({});
+    console.log(Session.get("lastInfxnClick"));
+    console.log("in bugs");
+
+    var checkedInfxnIds = $(".infxns:checked").map(function () {
+      var _id = parseInt(this.value);
+      return _id;
+    }).get();
+    console.dir(checkedInfxnIds);
+
+    var bugIds = [];
+    for (var i = 0; i < checkedInfxnIds.length; i++) {
+      var infxn = Infxns.findOne({_id: checkedInfxnIds[i]});
+      bugIds = bugIds.concat(infxn.bugs);
+    }
+
+    $(".bugs:checked").each(function () {
+      $(this).prop('checked', false);
+    });
+    Session.set("lastBugsClick", (new Date()).getTime());
+
+    if (bugIds.length > 0) {
+      return Bugs.find({_id: {$in: bugIds}});
+    } else {
+      return Bugs.find({});
+    }
   },
   abxForBugs: function () {
     console.log(Session.get("lastBugsClick"));
@@ -71,9 +99,28 @@ Template.body.events({
     Session.set("lastAbxClick", (new Date()).getTime());
   },
   "click .bugs": function (e) {
-    console.log("in function click .bugs");
+    console.log("in function click .bugs" + $(".bugs:checked").length);
+    console.dir(this);
+    console.log("in function click .bugs" + $(".bugs").length);
+    //if (!$(this).prop("checked")) {
+    //  $("#allBugs").prop("checked", false);
+    //} else
+    if ($(".bugs").not(":checked").length > 0) {
+      $("#allBugs").prop("checked", false);
+    } else { 
+      $("#allBugs").prop("checked", true);
+    }
     Session.set("lastBugsClick", (new Date()).getTime());
-  }
+  },
+  "click .infxns": function (e) {
+    console.log("in function click .infxns");
+    Session.set("lastInfxnClick", (new Date()).getTime());
+  },
+  "click #allBugs": function (e) {
+    console.log("in function click .allBugs");
+    $(".bugs").prop("checked", $("#allBugs").prop("checked"));
+    Session.set("lastBugsClick", (new Date()).getTime());
+  },
 });
 
 Template.bug.onRendered(function () {
@@ -93,6 +140,21 @@ Template.bug.onRendered(function () {
 
 Template.antibiotic.onRendered(function () {
   console.log("bug.onRendered");
+  var widestLabel = Session.get("widestLabel");
+  var currentLabel = this.$('label').width();
+
+  console.log(currentLabel + " > " + widestLabel);
+  if ( currentLabel > widestLabel ) {
+    Session.set("widestLabel", currentLabel);
+    $('#widestLabel').remove();
+    $('<style id="widestLabel">.equalWidth { width: ' + currentLabel + 'px; }</style>').appendTo('head');
+  }
+  console.log("widestLabel: " + Session.get("widestLabel"));
+  this.$('label').addClass("equalWidth");
+});
+
+Template.infxn.onRendered(function () {
+  console.log("infxn.onRendered");
   var widestLabel = Session.get("widestLabel");
   var currentLabel = this.$('label').width();
 
