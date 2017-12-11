@@ -35,25 +35,25 @@
 <template name="antibiotic">
   <label>
     <input type="checkbox" class="abx" value="{{_id}}"/>
-    {{name}}
+    <span class="capitalize">{{name}}</span>
   </label>
 </template>
 
 <template name="coveredBug">
   <label class="equalWidth" style="color: {{gramStainColor}}">
-    {{name}}
+    <span class="capitalize">{{name}}</span>
   </label>
 </template>
 
 <template name="bug">
   <label style="color: {{gramStainColor}}">
     <input type="checkbox" class="bugs" value="{{_id}}"/>
-    {{name}}
+    <span class="capitalize">{{name}}</span>
   </label>
 </template>
 
 <template name="antibioticForBugs">
   <label class="equalWidth">
-    {{name}}
+    <span class="capitalize">{{name}}</span>
   </label>
 </template>
