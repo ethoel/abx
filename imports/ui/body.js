@@ -60,7 +60,9 @@ Template.bug.helpers({
 });
 
 Template.coveredBug.helpers({
-  gramStainColor: gramToColor(this.gram)
+  gramStainColor: function () {
+    gramToColor(this.gram);
+  }
 });
 
 Template.body.events({
