@@ -19,6 +19,5 @@ label {
 .equalWidth {
   max-width: 50%;
   width: 250px;
-  padding-left: 1rem;
   padding-right: 1rem;
 }
