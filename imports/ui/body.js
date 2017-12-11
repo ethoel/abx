@@ -53,12 +53,19 @@ Template.body.helpers({
       bugIds = bugIds.concat(infxn.bugs);
     }
 
-    $(".bugs:checked").each(function () {
-      $(this).prop('checked', false);
-    });
-    Session.set("lastBugsClick", (new Date()).getTime());
 
     if (bugIds.length > 0) {
+      console.log("11111111111111  " + $(".bugs:checked").length);
+      $(".bugs:checked").each(function () {
+        console.log("does this happen? " + this.value);
+        console.dir(bugIds);
+        if ($.inArray(parseInt(this.value), bugIds) < 0) {
+          console.log("does this happen? yes for " + this.value);
+          $(this).prop('checked', false);
+        }
+      });
+      Session.set("lastBugsClick", (new Date()).getTime());
+      console.log("222222222222222  " + $(".bugs:checked").length);
       return Bugs.find({_id: {$in: bugIds}});
     } else {
       return Bugs.find({});
@@ -66,6 +73,7 @@ Template.body.helpers({
   },
   abxForBugs: function () {
     console.log(Session.get("lastBugsClick"));
+    console.log("333333333333");
     var checkedBugsIds = $(".bugs:checked").map(function () {
       var _id = parseInt(this.value);
       return {bugs: _id};
