@@ -144,6 +144,20 @@ Template.bug.onRendered(function () {
   }
   console.log("widestLabel: " + Session.get("widestLabel"));
   this.$('label').addClass("equalWidth");
+
+  if ($(".bugs").not(":checked").length > 0) {
+    $("#allBugs").prop("checked", false);
+  } else { 
+    $("#allBugs").prop("checked", true);
+  }
+});
+
+Template.bug.onDestroyed(function () {
+  if (this.$(".bugs").not(":checked") && $(".bugs").not(":checked").length < 2) {
+    $("#allBugs").prop("checked", true);
+  } else { 
+    $("#allBugs").prop("checked", false);
+  }
 });
 
 Template.antibiotic.onRendered(function () {
