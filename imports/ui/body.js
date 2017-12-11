@@ -44,6 +44,20 @@ Template.body.helpers({
   }
 });
 
+Template.bug.helpers({
+  gramStainColor: function () {
+    console.log("in gramStainColor fxn:");
+    //console.dir(this);
+    if (this.gram > 0) {
+      return "#663399";
+    } else if (this.gram < 0) {
+      return "#DDA0DD";
+    } else {
+      return "#696969";
+    }
+  }
+});
+
 Template.body.events({
   "click .abx": function (e) {
     console.log("in function click .abx");
