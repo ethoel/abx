@@ -9,7 +9,7 @@
 label {
   display: inline-block;
   overflow-x: hidden;
-  white-space: no-wrap;
+  white-space: nowrap;
 }
 
 label::first-letter {
