@@ -23,6 +23,16 @@ export function abxCompare(a, b) {
   return a.name.localeCompare(b.name);
 }
 
+export function abxNarrowToBroad(a, b) {
+  if (a.bugs.length < b.bugs.length) {
+    return -1;
+  } else if (a.bugs.length > b.bugs.length) {
+    return 1;
+  } else {
+    return a.name.localeCompare(b.name);
+  }
+}
+
 export function infxnCompare(a, b) {
   return a.name.localeCompare(b.name);
 }

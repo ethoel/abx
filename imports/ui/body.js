@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { Abx } from '../api/abx.js';
 import { Bugs } from '../api/bugs.js';
 import { Infxns } from '../api/infxns.js';
-import { gramToColor, bugCompare, abxCompare, infxnCompare } from './functions.js';
+import { gramToColor, bugCompare, abxCompare, infxnCompare, abxNarrowToBroad } from './functions.js';
 import './body.html';
 
 Meteor.startup(function () {
@@ -66,7 +66,7 @@ Template.body.helpers({
     }).get();
 
     if (checkedBugsIds.length > 0) {
-      return Abx.find({$and: checkedBugsIds}).fetch().sort(abxCompare);
+      return Abx.find({$and: checkedBugsIds}).fetch().sort(abxNarrowToBroad);
     } else {
       return "";
     }
