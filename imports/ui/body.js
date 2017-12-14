@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { Abx } from '../api/abx.js';
 import { Bugs } from '../api/bugs.js';
 import { Infxns } from '../api/infxns.js';
-import { gramToColor } from './gramToColor.js';
+import { gramToColor, bugCompare, abxCompare, infxnCompare } from './functions.js';
 import './body.html';
 
 Meteor.startup(function () {
@@ -12,18 +12,12 @@ Meteor.startup(function () {
   Session.set("widestLabel", 0);
 });
 
-
-
 Template.body.helpers({
   infxns: function () {
-    return Infxns.find({}).fetch().sort(function (a, b) {
-      return a.name.localeCompare(b.name);
-    });
+    return Infxns.find({}).fetch().sort(infxnCompare);
   },
   abx: function () {
-    return Abx.find({}).fetch().sort(function (a, b) {
-      return a.name.localeCompare(b.name);
-    });
+    return Abx.find({}).fetch().sort(abxCompare);
   },
   coveredBugs: function () {
     console.log(Session.get("lastAbxClick"));
@@ -35,15 +29,7 @@ Template.body.helpers({
     //console.dir(checkedAbxIds);
     
     if (checkedAbxIds.length > 0) {
-      return Bugs.find({$or: checkedAbxIds}).fetch().sort(function (a, b) {
-        if (a.gram === b.gram) {
-          return a.name.localeCompare(b.name);
-        } else if (a.gram === 1 || (a.gram === -1 && b.gram === 0)) {
-          return 1;
-        } else {
-          return -1;
-        }
-      });
+      return Bugs.find({$or: checkedAbxIds}).fetch().sort(bugCompare);
       //return Bugs.find({$or: [{abx: 22}, {abx: 24}]});
     } else {
       return "";
@@ -78,9 +64,9 @@ Template.body.helpers({
       });
       Session.set("lastBugsClick", (new Date()).getTime());
       console.log("222222222222222  " + $(".bugs:checked").length);
-      return Bugs.find({_id: {$in: bugIds}});
+      return Bugs.find({_id: {$in: bugIds}}).fetch().sort(bugCompare);
     } else {
-      return Bugs.find({});
+      return Bugs.find({}).fetch().sort(bugCompare);
     }
   },
   abxForBugs: function () {
@@ -94,7 +80,7 @@ Template.body.helpers({
     console.dir(checkedBugsIds);
     
     if (checkedBugsIds.length > 0) {
-      return Abx.find({$and: checkedBugsIds});
+      return Abx.find({$and: checkedBugsIds}).fetch().sort(abxCompare);
     } else {
       return "";
     }
