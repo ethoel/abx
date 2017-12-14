@@ -13,9 +13,9 @@ export function bugCompare(a, b) {
   if (a.gram === b.gram) {
     return a.name.localeCompare(b.name);
   } else if (a.gram === 1 || (a.gram === -1 && b.gram === 0)) {
-    return 1;
-  } else {
     return -1;
+  } else {
+    return 1;
   }
 }
 
