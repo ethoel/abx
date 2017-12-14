@@ -16,10 +16,14 @@ Meteor.startup(function () {
 
 Template.body.helpers({
   infxns: function () {
-    return Infxns.find({});
+    return Infxns.find({}).fetch().sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
   },
   abx: function () {
-    return Abx.find({});
+    return Abx.find({}).fetch().sort(function (a, b) {
+      return a.name.localeCompare(b.name);
+    });
   },
   coveredBugs: function () {
     console.log(Session.get("lastAbxClick"));
@@ -31,7 +35,15 @@ Template.body.helpers({
     //console.dir(checkedAbxIds);
     
     if (checkedAbxIds.length > 0) {
-      return Bugs.find({$or: checkedAbxIds});
+      return Bugs.find({$or: checkedAbxIds}).fetch().sort(function (a, b) {
+        if (a.gram === b.gram) {
+          return a.name.localeCompare(b.name);
+        } else if (a.gram === 1 || (a.gram === -1 && b.gram === 0)) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
       //return Bugs.find({$or: [{abx: 22}, {abx: 24}]});
     } else {
       return "";
