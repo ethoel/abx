@@ -8,7 +8,13 @@
         {{> infxn}}
       {{/each}}
     </div>
-    <h4>Then select the common pathogens you want to cover:</h4>
+    <h4>Selected infections are commonly covered by any one of these:</h4>
+    <div>
+      {{#each commonAbx}}
+        {{> common}}
+      {{/each}}
+    </div>
+    <h4>Or select the common pathogens you want to cover:</h4>
     <div>
       <label class="equalWidth">
         <input type="checkbox" id="allBugs"/>
@@ -71,6 +77,12 @@
 <template name="infxn">
   <label>
     <input type="checkbox" class="infxns" value="{{_id}}"/>
+    <span class="capitalize">{{name}}</span>
+  </label>
+</template>
+
+<template name="common">
+  <label class="equalWidth">
     <span class="capitalize">{{name}}</span>
   </label>
 </template>

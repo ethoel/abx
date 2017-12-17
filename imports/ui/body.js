@@ -4,7 +4,7 @@ import { Session } from 'meteor/session';
 import { Abx } from '../api/abx.js';
 import { Bugs } from '../api/bugs.js';
 import { Infxns } from '../api/infxns.js';
-import { gramToColor, bugCompare, abxCompare, infxnCompare, abxNarrowToBroad } from './functions.js';
+import { arrayInArray, gramToColor, bugCompare, abxCompare, infxnCompare, abxNarrowToBroad } from './functions.js';
 import './body.html';
 
 Meteor.startup(function () {
@@ -12,6 +12,37 @@ Meteor.startup(function () {
 });
 
 Template.body.helpers({
+  commonAbx: function () {
+    Session.get("lastInfxnClick");
+
+    var checkedInfxnIds = $(".infxns:checked").map(function () {
+      var _id = parseInt(this.value);
+      return _id;
+    }).get();
+
+    var checkedInfxns = Infxns.find({_id: {$in: checkedInfxnIds}}).fetch();
+    var commonAbxIds = [];
+    for (var i = 0; i < checkedInfxns.length; i++) {
+      commonAbxIds = commonAbxIds.concat(checkedInfxns[i].abx);
+    }
+
+    var finalIds = [];
+    if (checkedInfxns.length < 2) {
+      finalIds = commonAbxIds;
+    } else {
+      for (var j = 0; j < commonAbxIds.length; j++) {
+        console.log("j = ", j);
+        console.log(arrayInArray(commonAbxIds[j], finalIds, 0) < 0);
+        console.log(arrayInArray(commonAbxIds[j], commonAbxIds, j+1) > -1);
+        if (arrayInArray(commonAbxIds[j], finalIds, 0) < 0 &&
+        arrayInArray(commonAbxIds[j], commonAbxIds, j+1) > -1) {
+          finalIds.push(commonAbxIds[j]);
+        }
+      }
+    }
+
+    return finalIds;
+  },
   infxns: function () {
     return Infxns.find({}).fetch().sort(infxnCompare);
   },
@@ -20,6 +51,7 @@ Template.body.helpers({
   },
   coveredBugs: function () {
     Session.get("lastAbxClick");
+
     var checkedAbxIds = $(".abx:checked").map(function () {
       var _id = parseInt(this.value);
       return {abx: _id};
@@ -70,6 +102,16 @@ Template.body.helpers({
     } else {
       return "";
     }
+  }
+});
+
+Template.common.helpers({
+  name: function () {
+    var antibiotic = Abx.findOne(this[0]).name;
+    for (var i = 1; i < this.length; i++) {
+      antibiotic += " + " + Abx.findOne(this[i]).name;
+    }
+    return antibiotic;
   }
 });
 
